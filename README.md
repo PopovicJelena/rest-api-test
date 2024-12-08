@@ -19,6 +19,7 @@ This API is built with **Express.js** and **MySQL**, providing endpoints for man
 - Node.js (v16 or newer)
 - MySQL server
 - Postman (or any API testing tool)
+- Docker (optional)
 
 
 ## Setup Instructions
@@ -93,3 +94,41 @@ This API is built with **Express.js** and **MySQL**, providing endpoints for man
 2. Add the token to the Authorization header in the format
     `Bearer <your-token>`
 3. Test the endpoints according to your user role.
+
+
+## Running with Docker
+
+### Prerequisites
+
+Ensure you have Docker and Docker Compose installed on your machine.
+
+### Building and Running the Docker Container
+
+1. Build the Docker image:
+
+```docker build -t rest-api .```
+
+2. Run the container:
+
+```docker run -p 3000:3000 rest-api```
+The API will be accessible at `http://localhost:3000`.
+
+
+Alternatively, you can use **docker-compose** to manage your application
+
+1. Build Docker images:
+
+```docker-compose build```
+
+2. Run the application:
+
+```docker-compose up```
+The API will be accessible at `http://localhost:3000`.
+
+3. Stop the application:
+
+```docker-compose down```
+
+## Notes
+- Ensure your .env file matches the environment variables specified in the docker-compose.yml.
+- If you encounter a port already in use error, check if another application is using port 3000.
