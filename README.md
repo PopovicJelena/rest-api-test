@@ -2,7 +2,7 @@
 
 This API is built with **Express.js** and **MySQL**, providing endpoints for managing users and tasks. It includes authentication, role-based access, and pagination features.
 
-_____
+---
 
 
 ## Features
@@ -15,7 +15,7 @@ _____
   - Pagination and sorting (newest to oldest and vice versa).
 - Authentication: JSON Web Token (JWT) for secure access.
 
-_____
+---
 
 
 ## Prerequisites
@@ -24,7 +24,7 @@ _____
 - MySQL server
 - Postman (or any API testing tool)
 
-_____
+___
 
 
 ## Setup Instructions
@@ -72,8 +72,8 @@ _____
 ### Tasks
 - **POST** `/createTask`: Create a new task (Basic Users only).
 - **POST** `/updateTask`: Update a task.
- - **Basic Users**: Can update their own tasks.
- - **Admins**: Can update any task.
+  - **Basic Users**: Can update their own tasks.
+  - **Admins**: Can update any task.
 - **POST** `/deleteTask`: Delete a task (Admins only).
 - **GET** `/tasks`: List tasks with pagination and sorting.
 
