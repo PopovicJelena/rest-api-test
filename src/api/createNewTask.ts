@@ -1,5 +1,5 @@
-import { DecodedToken } from "./middleware/auth"
-import { getSQL } from "./sql/sql"
+import { DecodedToken } from "../middleware/auth"
+import { getSQL } from "../sql/sql"
 import { v4 as uuidv4 } from "uuid"
 
 type CreateNewTaskRequest = {
@@ -28,17 +28,15 @@ export async function createNewTask({
 
     const created_at = Math.floor(Date.now() / 1000)
 
-    console.log('body', body)
-
     await sql.query(
         "INSERT INTO task (id, body, created_by, created_at) VALUES (?, ?, ?, ?)",
-        [id, body, decodedToken.id, created_at]
+        [id, body, decodedToken.userId, created_at]
     )
     
     return {
         id,
         body,
-        created_by: decodedToken.id,
+        created_by: decodedToken.userId,
         created_at,
     }
 

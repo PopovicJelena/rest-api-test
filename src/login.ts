@@ -12,6 +12,11 @@ export type User = {
     role: "basic" | "admin"
 }
 
+export type LoginRequest = {
+    email: string
+    password: string
+}
+
 export type LoginResponse = {
     status: 'success'
     id: string
@@ -19,7 +24,6 @@ export type LoginResponse = {
     last_name: string
     username: string
     email: string
-    password: string
     role: "basic" | "admin"
     token: string
 } | {
@@ -28,10 +32,13 @@ export type LoginResponse = {
 }
 
 
-export async function login(email: string, password: string): Promise<LoginResponse>{
+export async function login({email, password}: LoginRequest): Promise<LoginResponse>{
     const sql = getSQL() 
     
-    const users = (await sql.query(`SELECT * FROM restapitest.user WHERE email = ?`, [email]))[0] as User[]
+    const users = (await sql.query(
+        `SELECT * FROM restapitest.user WHERE email = ?`, 
+        [email]
+    ))[0] as User[]
 
     if (users.length === 0) {
         return {
@@ -39,7 +46,8 @@ export async function login(email: string, password: string): Promise<LoginRespo
             message: "User with this email doesn't exist"
         }
     } else if (users.length > 1) {
-        throw new Error("Sould not happen")
+        // Should not happen since email is unique in user table
+        throw new Error(`Multiple emails ${email}`)
     } else {
         const user = users[0]
 
@@ -71,7 +79,6 @@ export async function login(email: string, password: string): Promise<LoginRespo
             last_name: user.last_name,
             username: user.username,
             email: user.email,
-            password: user.password,
             role: user.role,
             token
         }

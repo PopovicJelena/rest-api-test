@@ -1,4 +1,4 @@
-import { getSQL } from "./sql/sql";
+import { getSQL } from "../sql/sql";
 import { Task } from "./updateTask";
 
 type ListTasksRequest = {
@@ -13,19 +13,18 @@ type ListTasksRequest = {
 
 type ListTasksResponse = {
     tasks: Task[]
-    total: number
     page: number
     pageSize: number 
 }
 
 export async function listTasks({
     decodedToken,
-    page = 1,
-    pageSize = 10,
-    sort = "desc",
+    page,
+    pageSize,
+    sort,
 }: ListTasksRequest): Promise<ListTasksResponse> {
     const sql = getSQL()
-    const offset = (page - 1) * pageSize // Prva stavka na trenutnoj stranici
+    const offset = (page - 1) * pageSize
 
     let tasksQuery = `
         SELECT * FROM task
@@ -37,24 +36,11 @@ export async function listTasks({
     const queryParams = decodedToken.role === "basic"
         ? [decodedToken.id, pageSize, offset]
         : [pageSize, offset]
-
+    
     const tasks = (await sql.query(tasksQuery, queryParams))[0] as Task[]
-
-    const countQuery = `
-        SELECT COUNT(*) AS total FROM task
-        ${decodedToken.role === "basic" ? "WHERE created_by = ?" : ""}
-    `
-
-    const countParams = decodedToken.role === "basic" ? [decodedToken.id] : [];
-    const totalResult = (await sql.query(countQuery, countParams))[0] as {
-        total: number
-    }[]
-
-    const total = totalResult[0].total
 
     return {
         tasks,
-        total,
         page,
         pageSize,
     }

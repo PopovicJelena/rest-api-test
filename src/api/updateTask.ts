@@ -1,4 +1,4 @@
-import { getSQL } from "./sql/sql"
+import { getSQL } from "../sql/sql"
 
 export type Task = {
     id: string
@@ -29,7 +29,6 @@ export async function updateTask({
 
     // if user has role "basic", check if the task is his
     if (decodedToken.role === "basic") {
-        console.log('updateTASK', decodedToken.role)
         const task = (await sql.query(
         "SELECT * FROM task WHERE id = ? AND created_by = ?",
         [taskId, decodedToken.id]
