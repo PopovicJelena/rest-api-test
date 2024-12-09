@@ -8,6 +8,8 @@ import { register } from "./register"
 import { deleteTask } from "./api/deleteTask"
 import { listTasks } from "./api/listTasks"
 import { updateUser } from "./api/updateUser"
+import dotenv from "dotenv"
+dotenv.config()
 
 const app = express()
 

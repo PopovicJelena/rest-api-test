@@ -1,5 +1,5 @@
--- CREATE DATABASE IF NOT EXISTS restapitest;
--- use restapitest;
+CREATE DATABASE IF NOT EXISTS restapitest;
+USE restapitest;
 
 CREATE TABLE IF NOT EXISTS user (
     id VARCHAR(64) NOT NULL,
